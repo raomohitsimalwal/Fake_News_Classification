@@ -1,0 +1,49 @@
+{
+    "liar_total_claims": 12771,
+    "liar_6class_counts": {
+        "half-true": 2624,
+        "false": 2494,
+        "mostly-true": 2453,
+        "barely-true": 2103,
+        "true": 2050,
+        "pants-fire": 1047
+    },
+    "liar_3class_counts": {
+        "Questionable": 5644,
+        "Credible": 4503,
+        "Half-True": 2624
+    },
+    "liar_mean_word_count": 18.05,
+    "liar_median_word_count": 17,
+    "news_total_articles": 6306,
+    "news_label_counts": {
+        "REAL": 3154,
+        "FAKE": 3152
+    },
+    "news_mean_word_count": 786.85,
+    "news_median_word_count": 608,
+    "top_credible_bigrams": [
+        "united state",
+        "health care",
+        "barack obama",
+        "donald trump",
+        "mitt romney",
+        "new jersey",
+        "rhode island",
+        "health insurance",
+        "hillary clinton",
+        "tax cut"
+    ],
+    "top_questionable_bigrams": [
+        "health care",
+        "barack obama",
+        "hillary clinton",
+        "united state",
+        "president barack",
+        "scott walker",
+        "social security",
+        "say president",
+        "president obama",
+        "care law"
+    ]
+}
