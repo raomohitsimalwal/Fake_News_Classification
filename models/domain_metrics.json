@@ -1,0 +1,20 @@
+{
+  "Calibrated Logistic Regression": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "macro_f1": 1.0
+  },
+  "Multinomial Naive Bayes": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "macro_f1": 1.0
+  },
+  "Passive-Aggressive (Calibrated)": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "macro_f1": 1.0
+  }
+}

@@ -18,6 +18,7 @@ if BASE_DIR not in sys.path:
 
 from src.preprocess import clean_text_basic, preprocess_text, expand_contractions
 from src.explainability import analyze_claim, analyze_news
+from src.domain_classifier import DomainInferenceEngine, extractive_summarize
 
 
 def test_contractions_expansion():
@@ -107,6 +108,46 @@ def test_empty_input_handling():
         pass
 
 
+def test_domain_classifier_artifact_exists():
+    models_dir = os.path.join(BASE_DIR, "models")
+    assert os.path.exists(os.path.join(models_dir, "domain_classifier.joblib"))
+    assert os.path.exists(os.path.join(models_dir, "domain_metrics.json"))
+
+
+def test_domain_classifier_inference_legal():
+    engine = DomainInferenceEngine()
+    sample_legal = (
+        "This Mutual Non-Disclosure Agreement governs confidential proprietary data, trade secrets, "
+        "and patent filings. Neither party shall disclose information without injunctive relief in Delaware courts."
+    )
+    res = engine.classify_document(sample_legal)
+    assert res["predicted_domain"] == "Legal"
+    assert res["confidence"] > 0.50
+    assert "summary" in res
+    assert len(res["summary"]) > 20
+
+
+def test_domain_classifier_inference_healthcare():
+    engine = DomainInferenceEngine()
+    sample_health = (
+        "Patient presents with acute chest discomfort and ST-segment elevation. "
+        "Initiated 325mg aspirin and transferred for emergent cardiac catheterization."
+    )
+    res = engine.classify_document(sample_health)
+    assert res["predicted_domain"] == "Healthcare"
+    assert res["confidence"] > 0.50
+
+
+def test_domain_extractive_summary():
+    text = (
+        "Enterprise software revenue expanded 18% year over year. Operating margins rose to 31%. "
+        "Free cash flow totaled $22 billion for the current fiscal quarter. Capital expenditures were focused on infrastructure."
+    )
+    summ = extractive_summarize(text, max_sentences=2)
+    assert len(summ) > 20
+    assert len(summ.split()) < len(text.split())
+
+
 if __name__ == "__main__":
     print("Running Pipeline Tests...")
     test_contractions_expansion()
@@ -125,4 +166,12 @@ if __name__ == "__main__":
     print("[PASS] News article analysis test passed")
     test_empty_input_handling()
     print("[PASS] Edge cases & empty input test passed")
-    print("\nALL UNIT AND INTEGRATION TESTS PASSED SUCCESSFULLY!")
+    test_domain_classifier_artifact_exists()
+    print("[PASS] Project 15: Domain model artifacts exist")
+    test_domain_classifier_inference_legal()
+    print("[PASS] Project 15: Legal document inference test passed")
+    test_domain_classifier_inference_healthcare()
+    print("[PASS] Project 15: Healthcare document inference test passed")
+    test_domain_extractive_summary()
+    print("[PASS] Project 15: Extractive summarization test passed")
+    print("\nALL DUAL-PROJECT UNIT AND INTEGRATION TESTS PASSED SUCCESSFULLY!")
